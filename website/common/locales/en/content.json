@@ -282,7 +282,11 @@
   "hatchingPotionRoseQuartz": "Rose Quartz",
   "hatchingPotionCelestial": "Celestial",
   "hatchingPotionVeggie": "Garden",
+<<<<<<< HEAD
   "hatchingPotionBronze": "Bronze",
+=======
+  "hatchingPotionSunshine": "Sunshine",
+>>>>>>> release
 
   "hatchingPotionNotes": "Pour this on an egg, and it will hatch as a <%= potText(locale) %> pet.",
   "premiumPotionAddlNotes": "Not usable on quest pet eggs.",

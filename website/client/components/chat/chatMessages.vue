@@ -1,8 +1,11 @@
 <template lang="pug">
-.container-fluid
+.container-fluid(ref="container")
   .row
     .col-12
       copy-as-todo-modal(:group-type='groupType', :group-name='groupName', :group-id='groupId')
+  .row.loadmore
+    button.btn.btn-secondary(v-if="canLoadMore", @click='triggerLoad()') {{ $t('loadMore') }}
+    h2.col-12.loading(v-show="isLoading") {{ $t('loading') }}
   div(v-for="(msg, index) in messages", v-if='chat && canViewFlag(msg)', :class='{row: inbox}')
     .d-flex(v-if='user._id !== msg.uuid', :class='{"flex-grow-1": inbox}')
       avatar.avatar-left(
@@ -97,6 +100,11 @@
   .message-scroll .d-flex {
     min-width: 1px;
   }
+
+  .loadmore {
+    justify-content: center;
+    margin: 2px;
+  }
 </style>
 
 <script>
@@ -120,6 +128,9 @@ export default {
     groupType: {},
     groupId: {},
     groupName: {},
+
+    isLoading: Boolean,
+    canLoadMore: Boolean,
   },
   components: {
     copyAsTodoModal,
@@ -153,14 +164,15 @@ export default {
       return this.chat;
     },
   },
-  watch: {
-    messages () {
-      this.loadProfileCache();
-    },
-  },
   methods: {
     handleScroll () {
       this.loadProfileCache(window.scrollY / 1000);
+    },
+    triggerLoad () {
+      const canLoadMore = this.inbox && !this.isLoading && this.canLoadMore;
+      if (canLoadMore) {
+        this.$emit('triggerLoad');
+      }
     },
     canViewFlag (message) {
       if (message.uuid === this.user._id) return true;

@@ -17,52 +17,52 @@ div
       user-dropdown.item-with-icon
     b-collapse#menu_collapse(v-model="menuIsOpen").collapse.navbar-collapse
       b-navbar-nav.menu-list
-        b-nav-item.topbar-item(@click="closeMenu()", tag="li", :to="{name: 'tasks'}", exact) {{ $t('tasks') }}
-        li.topbar-item(:class="{'active': $route.path.startsWith('/inventory')}")
-          .chevron.rotate(@click="dropdown")
+        b-nav-item.topbar-item(:class="{'active': $route.path === '/'}" tag="li", :to="{name: 'tasks'}", exact) {{ $t('tasks') }}
+        li.topbar-item(:class="{'active': $route.path.startsWith('/inventory'), 'down': $route.path.startsWith('/inventory') && this.isDesktop()}").droppable
+          .chevron.rotate
             .chevron-icon-down(v-html="icons.chevronDown", v-once)
-          router-link.nav-link(@click.native="closeMenu", :to="{name: 'items'}") {{ $t('inventory') }}
-          .topbar-dropdown(@click="closeMenu")
+          router-link.nav-link(:to="{name: 'items'}") {{ $t('inventory') }}
+          .topbar-dropdown
             router-link.topbar-dropdown-item.dropdown-item(:to="{name: 'items'}", exact) {{ $t('items') }}
             router-link.topbar-dropdown-item.dropdown-item(:to="{name: 'equipment'}") {{ $t('equipment') }}
             router-link.topbar-dropdown-item.dropdown-item(:to="{name: 'stable'}") {{ $t('stable') }}
-        li.topbar-item(:class="{'active': $route.path.startsWith('/shop')}")
-          .chevron.rotate(@click="dropdown")
+        li.topbar-item(:class="{'active': $route.path.startsWith('/shop'), 'down': $route.path.startsWith('/shop') && this.isDesktop()}").droppable
+          .chevron.rotate
             .chevron-icon-down(v-html="icons.chevronDown", v-once)
-          router-link.nav-link(@click.native="closeMenu", :to="{name: 'market'}") {{ $t('shops') }}
-          .topbar-dropdown(@click="closeMenu")
+          router-link.nav-link(:to="{name: 'market'}") {{ $t('shops') }}
+          .topbar-dropdown
             router-link.topbar-dropdown-item.dropdown-item(:to="{name: 'market'}", exact) {{ $t('market') }}
             router-link.topbar-dropdown-item.dropdown-item(:to="{name: 'quests'}") {{ $t('quests') }}
             router-link.topbar-dropdown-item.dropdown-item(:to="{name: 'seasonal'}") {{ $t('titleSeasonalShop') }}
             router-link.topbar-dropdown-item.dropdown-item(:to="{name: 'time'}") {{ $t('titleTimeTravelers') }}
-        b-nav-item.topbar-item(@click="closeMenu()", tag="li", :to="{name: 'party'}", v-if='this.user.party._id') {{ $t('party') }}
-        b-nav-item.topbar-item(@click='openPartyModal(); closeMenu()', v-if='!this.user.party._id') {{ $t('party') }}
-        li.topbar-item(:class="{'active': $route.path.startsWith('/guilds')}")
-          .chevron.rotate(@click="dropdown")
+        b-nav-item.topbar-item(:class="{'active': $route.path.startsWith('/party')}" tag="li", :to="{name: 'party'}", v-if='this.user.party._id') {{ $t('party') }}
+        b-nav-item.topbar-item(:class="{'active': $route.path.startsWith('/party')}" @click='openPartyModal()', v-if='!this.user.party._id') {{ $t('party') }}
+        li.topbar-item(:class="{'active': $route.path.startsWith('/groups'), 'down': $route.path.startsWith('/groups') && this.isDesktop()}").droppable
+          .chevron.rotate
             .chevron-icon-down(v-html="icons.chevronDown", v-once)
-          router-link.nav-link(@click.native="closeMenu", :to="{name: 'tavern'}") {{ $t('guilds') }}
-          .topbar-dropdown(@click="closeMenu")
+          router-link.nav-link(:to="{name: 'tavern'}") {{ $t('guilds') }}
+          .topbar-dropdown
             router-link.topbar-dropdown-item.dropdown-item(:to="{name: 'tavern'}") {{ $t('tavern') }}
             router-link.topbar-dropdown-item.dropdown-item(:to="{name: 'myGuilds'}") {{ $t('myGuilds') }}
             router-link.topbar-dropdown-item.dropdown-item(:to="{name: 'guildsDiscovery'}") {{ $t('guildsDiscovery') }}
-        li.topbar-item(:class="{'active': $route.path.startsWith('/group-plans')}")
-          .chevron.rotate(@click="dropdown", v-if="groupPlans.length > 0")
+        li.topbar-item(:class="{'active': $route.path.startsWith('/group-plans'), 'down': $route.path.startsWith('/group-plans') && this.isDesktop()}")
+          .chevron.rotate(v-if="groupPlans.length > 0").droppable
             .chevron-icon-down(v-html="icons.chevronDown", v-once)
-          router-link.nav-link(@click.native="closeMenu", :to="{name: 'groupPlan'}") {{ $t('group') }}
-          .topbar-dropdown(@click="closeMenu")
+          router-link.nav-link(:to="{name: 'groupPlan'}") {{ $t('group') }}
+          .topbar-dropdown
             router-link.topbar-dropdown-item.dropdown-item(v-for='group in groupPlans', :key='group._id', :to="{name: 'groupPlanDetailTaskInformation', params: {groupId: group._id}}") {{ group.name }}
-        li.topbar-item(:class="{'active': $route.path.startsWith('/challenges')}")
-          .chevron.rotate(@click="dropdown")
+        li.topbar-item(:class="{'active': $route.path.startsWith('/challenges'), 'down': $route.path.startsWith('/challenges') && this.isDesktop()}").droppable
+          .chevron.rotate
             .chevron-icon-down(v-html="icons.chevronDown", v-once)
-          router-link.nav-link(@click.native="closeMenu", :to="{name: 'myChallenges'}") {{ $t('challenges') }}
-          .topbar-dropdown(@click="closeMenu")
+          router-link.nav-link(:to="{name: 'myChallenges'}") {{ $t('challenges') }}
+          .topbar-dropdown
             router-link.topbar-dropdown-item.dropdown-item(:to="{name: 'myChallenges'}") {{ $t('myChallenges') }}
             router-link.topbar-dropdown-item.dropdown-item(:to="{name: 'findChallenges'}") {{ $t('findChallenges') }}
-        li.topbar-item(:class="{'active': $route.path.startsWith('/help')}")
-          .chevron.rotate(@click="dropdown")
+        li.topbar-item(:class="{'active': $route.path.startsWith('/help'), 'down': $route.path.startsWith('/help') && this.isDesktop()}").droppable
+          .chevron.rotate
             .chevron-icon-down(v-html="icons.chevronDown", v-once)
-          router-link.nav-link(@click.native="closeMenu", :to="{name: 'faq'}") {{ $t('help') }}
-          .topbar-dropdown(@click="closeMenu")
+          router-link.nav-link(:to="{name: 'faq'}") {{ $t('help') }}
+          .topbar-dropdown
             router-link.topbar-dropdown-item.dropdown-item(:to="{name: 'faq'}") {{ $t('faq') }}
             router-link.topbar-dropdown-item.dropdown-item(:to="{name: 'overview'}") {{ $t('overview') }}
             router-link.topbar-dropdown-item.dropdown-item(to="/groups/guild/a29da26b-37de-4a71-b0c6-48e72a900dac") {{ $t('reportBug') }}
@@ -131,6 +131,10 @@ div
         padding-top: 5px;
         height: 56px;
 
+        &:hover {
+          background: $purple-200;
+        }
+
         &.active:not(:hover) {
           box-shadow: 0px -4px 0px $purple-300 inset;
         }
@@ -164,6 +168,10 @@ div
         order: 1;
         text-align: center;
 
+        .topbar-dropdown  {
+          transition: max-height 0.25s ease;
+        }
+
         .topbar-dropdown-item {
           background: #432874;
           border-bottom: #6133b4 solid 1px;
@@ -185,14 +193,10 @@ div
           position: absolute;
           display: block;
           transition: transform 0.25s ease;
-     -moz-transition: transform 0.25s ease;
-  -webkit-transition: transform 0.25s ease;
         }
 
         .down .rotate .chevron-icon-down {
           transform: rotate(-180deg);
-     -moz-transform: rotate(-180deg);
-  -webkit-transform: rotate(-180deg);
           }
 
         .topbar-item {
@@ -274,9 +278,6 @@ div
     .topbar-dropdown  {
         overflow: hidden;
         max-height: 0;
-        transition: max-height 0.25s ease;
-   -moz-transition: max-height 0.25s ease;
--webkit-transition: max-height 0.25s ease;
 
         .topbar-dropdown-item {
           line-height: 1.5;
@@ -457,6 +458,16 @@ export default {
   },
   mounted () {
     this.getUserGroupPlans();
+    Array.from(document.getElementById('menu_collapse').getElementsByTagName('a')).forEach(link => {
+      link.addEventListener('click', this.closeMenu);
+    });
+    Array.from(document.getElementsByClassName('topbar-item')).forEach(link => {
+      link.addEventListener('mouseenter', this.dropdownDesktop);
+      link.addEventListener('mouseleave', this.dropdownDesktop);
+    });
+    Array.from(document.getElementsByClassName('rotate')).forEach(chevron => {
+      chevron.addEventListener('click', this.dropdownMobile);
+    });
   },
   methods: {
     modForm () {
@@ -483,25 +494,39 @@ export default {
 
       this.$root.$emit('bv::show::modal', 'buy-gems', {alreadyTracked: true});
     },
-    dropdown (click) {
-      let clikedElement = click.currentTarget.parentElement;
-      let downedElement = document.getElementsByClassName('down')[0];
-
-      if (downedElement && clikedElement !== downedElement) {
-        downedElement.classList.remove('down');
-        downedElement.lastChild.style.maxHeight = 0;
-      }
-
-      clikedElement.classList.toggle('down');
-
-      if (clikedElement.classList.contains('down')) {
-        clikedElement.lastChild.style.maxHeight = `${clikedElement.lastChild.scrollHeight}px`;
-      } else {
-        clikedElement.lastChild.style.maxHeight = 0;
+    dropdownDesktop (hover) {
+      if (this.isDesktop() && hover.target.classList.contains('droppable')) {
+        this.dropdown(hover.target);
       }
     },
+    dropdownMobile (click) {
+      this.dropdown(click.currentTarget.parentElement);
+    },
+    dropdown (element) {
+      let droppedElement = document.getElementsByClassName('down')[0];
+      if (droppedElement && droppedElement !== element) {
+        droppedElement.classList.remove('down');
+        droppedElement.lastChild.style.maxHeight = 0;
+      }
+
+      element.classList.toggle('down');
+      element.lastChild.style.maxHeight = element.classList.contains('down') ? `${element.lastChild.scrollHeight}px` : 0;
+    },
     closeMenu () {
-      this.menuIsOpen = !this.menuIsOpen;
+      if (this.isMobile()) {
+        this.menuIsOpen = false;
+
+        Array.from(document.getElementsByClassName('droppable')).forEach(droppableElement => {
+          droppableElement.classList.remove('down');
+          droppableElement.lastChild.style.maxHeight = 0;
+        });
+      }
+    },
+    isMobile () {
+      return document.documentElement.clientWidth < 992;
+    },
+    isDesktop () {
+      return !this.isMobile();
     },
   },
 };

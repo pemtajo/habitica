@@ -290,6 +290,7 @@ export async function cron (options = {}) {
   let todoTally = 0;
 
   tasksByType.todos.forEach(task => { // make uncompleted To-Dos redder (further incentive to complete them)
+    if (task.group.assignedDate && moment(task.group.assignedDate).isAfter(user.auth.timestamps.updated)) return;
     scoreTask({
       task,
       user,
@@ -310,6 +311,7 @@ export async function cron (options = {}) {
   if (!user.party.quest.progress.down) user.party.quest.progress.down = 0;
 
   tasksByType.dailys.forEach((task) => {
+    if (task.group.assignedDate && moment(task.group.assignedDate).isAfter(user.auth.timestamps.updated)) return;
     let completed = task.completed;
     // Deduct points for missed Daily tasks
     let EvadeTask = 0;

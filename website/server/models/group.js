@@ -1391,10 +1391,6 @@ schema.methods.syncTask = async function groupSyncTask (taskToSync, user) {
   let group = this;
   let toSave = [];
 
-  if (taskToSync.group.assignedUsers.indexOf(user._id) === -1) {
-    taskToSync.group.assignedUsers.push(user._id);
-  }
-
   // Sync tags
   let userTags = user.tags;
   let i = _.findIndex(userTags, {id: group._id});
@@ -1426,6 +1422,7 @@ schema.methods.syncTask = async function groupSyncTask (taskToSync, user) {
     matchingTask.group.id = taskToSync.group.id;
     matchingTask.userId = user._id;
     matchingTask.group.taskId = taskToSync._id;
+    matchingTask.group.assignedDate = moment().toDate();
     user.tasksOrder[`${taskToSync.type}s`].unshift(matchingTask._id);
   } else {
     _.merge(matchingTask, syncableAttrs(taskToSync));
@@ -1451,7 +1448,16 @@ schema.methods.syncTask = async function groupSyncTask (taskToSync, user) {
   if (!matchingTask.notes) matchingTask.notes = taskToSync.notes; // don't override the notes, but provide it if not provided
   if (matchingTask.tags.indexOf(group._id) === -1) matchingTask.tags.push(group._id); // add tag if missing
 
-  toSave.push(matchingTask.save(), taskToSync.save(), user.save());
+  toSave.push(matchingTask.save(), user.save());
+  return Promise.all(toSave);
+};
+
+schema.methods.linkTask = async function groupLinkTask (linkingTask, user) {
+  let toSave = [];
+  if (linkingTask.group.assignedUsers.indexOf(user._id) === -1) {
+    linkingTask.group.assignedUsers.push(user._id);
+  }
+  toSave.push(linkingTask.save(), this.syncTask(linkingTask, user));
   return Promise.all(toSave);
 };
 

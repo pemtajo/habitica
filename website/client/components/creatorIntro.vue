@@ -165,14 +165,14 @@ b-modal#avatar-modal(title="", :size='editing ? "lg" : "md"', :hide-header='true
         div(v-if='modalPage === 3')
           p(v-once) {{ $t('justinIntroMessage3') }}
       .npc-justin-textbox
-  .section.mr-5.ml-5(v-if='modalPage === 1')
+  .section.mr-5.ml-5.first-page-footer(v-if='modalPage === 1')
     username-form(@usernameConfirmed='modalPage += 1', :avatarIntro='true')
     .small.text-center(v-html="$t('usernameTOSRequirements')")
 
   .section.container.footer(v-if='!editing && !(modalPage === 1)')
     .row
       .col-3.offset-1.text-center
-        div(v-if='modalPage > 1', @click='prev()')
+        div.prev-outer(v-if='modalPage > 1', @click='prev()')
           .prev-arrow
           .prev(v-once) {{ $t('prev') }}
       .col-4.text-center.circles
@@ -197,7 +197,7 @@ b-modal#avatar-modal(title="", :size='editing ? "lg" : "md"', :hide-header='true
      it already changed once when bootstrap-vue reached version 1 */
 
   #avatar-modal___BV_modal_outer_ {
-    z-index: 1045; // on production the toolbar has a higher z-index
+    z-index: 1045 !important; // on production the toolbar has a higher z-index
   }
 
   #avatar-modal___BV_modal_body_, #avatar-modal___BV_modal_body_ {
@@ -217,6 +217,10 @@ b-modal#avatar-modal(title="", :size='editing ? "lg" : "md"', :hide-header='true
   }
 
   #avatar-modal {
+
+    .first-page-footer {
+      margin-bottom: 32px;
+    }
 
     .customize-section {
       text-align: center;
@@ -356,6 +360,7 @@ b-modal#avatar-modal(title="", :size='editing ? "lg" : "md"', :hide-header='true
 
     .circles {
       padding-left: 2em;
+      align-self: flex-end;
     }
 
     .circle {
@@ -443,6 +448,7 @@ b-modal#avatar-modal(title="", :size='editing ? "lg" : "md"', :hide-header='true
 
     .interests-section {
       margin-top: 3em;
+      margin-bottom: 60px;
 
       .task-option {
         margin: 0 auto;
@@ -451,6 +457,8 @@ b-modal#avatar-modal(title="", :size='editing ? "lg" : "md"', :hide-header='true
     }
 
     #backgrounds {
+      padding-top: 12px;
+
       .title-row {
         margin-bottom: 1em;
       }
@@ -579,16 +587,21 @@ b-modal#avatar-modal(title="", :size='editing ? "lg" : "md"', :hide-header='true
     }
 
     .footer {
-      padding-bottom: 1em;
+      margin-top: 24px;
+      padding-bottom: 24px;
       bottom: 0;
       width: 100%;
+
+      .prev-outer {
+        margin-left: 1em;
+        white-space: nowrap;
+      }
 
       .prev {
         color: #a5a1ac;
         font-weight: bold;
         display: inline-block;
         padding: 0.4em;
-        margin-left: 1em;
       }
 
       .prev:hover, .prev-arrow:hover {

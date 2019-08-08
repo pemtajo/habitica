@@ -172,7 +172,7 @@
 
   &-better { // teal
     &-control {
-      &-bg { 
+      &-bg {
         background: $teal-100 !important;
         &:hover {
           .habit-control { background: rgba(26, 24, 29, 0.48) !important; }
@@ -183,6 +183,7 @@
       &-inner-daily-todo { background: #8dedf6 !important; }
       &-icon { color: #005158 !important; }
       &-checkbox { color: $teal-100 !important; }
+      &-icon { color: #005158 !important; }
     }
 
     &-modal {

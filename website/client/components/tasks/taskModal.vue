@@ -605,8 +605,10 @@
     }
 
     .weekday-check {
-      margin-left: 0px;
       width: 57px;
+      .custom-control-label {
+        width: 57px;
+      }
     }
 
     .advanced-settings {

@@ -311,7 +311,7 @@
   const hideAmountSelectionForPurchaseTypes = [
     'gear', 'backgrounds', 'mystery_set', 'card',
     'rebirth_orb', 'fortify', 'armoire', 'keys',
-    'debuffPotion',
+    'debuffPotion', 'pets', 'mounts',
   ];
 
   export default {

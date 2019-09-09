@@ -127,8 +127,10 @@ export let TaskSchema = new Schema({
     },
     sharedCompletion: {$type: String, enum: _.values(SHARED_COMPLETION), default: SHARED_COMPLETION.single},
   },
-  byHabitica: {$type: Boolean, default: false}, // Flag of Tasks that were created by Habitica
+
   reminders: [reminderSchema],
+
+  byHabitica: {$type: Boolean, default: false}, // Flag of Tasks that were created by Habitica
 }, _.defaults({
   minimize: false, // So empty objects are returned
   strict: true,
